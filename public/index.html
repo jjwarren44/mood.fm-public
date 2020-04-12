@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Mood.fm</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        h1,
+        p {
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3vh;
+        }
+        
+        p,
+        label {
+            font-size: 1.5vh;
+        }
+        
+        input,
+        select {
+            margin-bottom: 2.7vh;
+        }
+        
+        #login,
+        #loggedin {
+            display: none;
+        }
+        
+        #login {
+            text-align: center;
+            transform: translateY(40vh);
+        }
+        
+        .text-overflow {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 500px;
+        }
+        
+        #subheading {
+            border-bottom: 2px solid rgb(40, 167, 69);
+            padding: 2vh;
+        }
+        
+        .wrapper {
+            text-align: center;
+        }
+        
+        .btn {
+            font-size: 20pt;
+            width: 50%;
+            height: 40%;
+        }
+        /* Slider control color */
+        
+        .custom-range::-webkit-slider-thumb {
+            background: rgb(40, 167, 69);
+            box-shadow: rgb(40, 167, 69);
+            width: 36px;
+            height: 36px;
+            transform: translateY(-10px);
+            border-radius: 50%;
+        }
+        
+        .custom-range::-moz-range-thumb {
+            background: rgb(40, 167, 69);
+            box-shadow: rgb(40, 167, 69);
+            width: 36px;
+            height: 36px;
+            transform: translateY(-10px);
+            border-radius: 50%;
+        }
+        
+        .custom-range::-ms-thumb {
+            background: rgb(40, 167, 69);
+            box-shadow: rgb(40, 167, 69);
+            width: 36px;
+            height: 36px;
+            transform: translateY(-10px);
+            border-radius: 50%;
+        }
+        
+        .custom-range::-webkit-slider-thumb:active {
+            background-color: rgb(32, 137, 56);
+        }
+        
+        .custom-range::-webkit-slider-thumb:active {
+            background-color: rgb(32, 137, 56);
+        }
+        
+        .custom-range::-webkit-slider-thumb:active {
+            background-color: rgb(32, 137, 56);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="login">
+            <h1>Mood.fm</h1>
+            <p>Generate a playlist by describing your mood</p>
+            <a href="/login" class="btn btn-success">Log in with Spotify</a>
+        </div>
+        <div id="loggedin">
+            <div id="playlist-controls">
+            </div>
+            <div id="oauth">
+            </div>
+        </div>
+    </div>
+
+    <script id="playlist-controls-template" type="text/x-handlebars-template">
+        <br>
+        <h1>Welcome, {{display_name}}!</h1>
+        <p id="subheading">Describe the music you want to listen to and a playlist will be generated in your account.</p>
+        <div class="media">
+            <div class="media-body">
+                <dl class="dl-horizontal">
+
+                    <form>
+                        <!-- Choose genre -->
+                        <p style="text-align: left;">Select a genre</p>
+                        <select class="custom-select mr-sm-8" id="genre-select">
+                            <option value="blues" selected>Blues</option>
+                            <option value="classical">Classical</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="country">Country</option>
+                            <option value="edm">EDM</option>
+                            <option value="folk">Folk</option>
+                            <option value="funk">Funk</option>
+                            <option value="heavy metal">Heavy Metal</option>
+                            <option value="hip-hop">Hip-Hop</option>
+                            <option value="house">House</option>
+                            <option value="indie">Indie</option>
+                            <option value="jazz">Jazz</option>
+                            <option value="pop">Pop</option>
+                            <option value="punk rock">Punk rock</option>
+                            <option value="r&b">R&B</option>
+                            <option value="reggae">Reggae</option>
+                            <option value="rock">Rock</option>
+                            <option value="soft">Soft</option>
+                            <option value="soul">Soul</option>
+                        </select>
+
+                        <!-- Choose genre -->
+                        <label for="artist">Provide an artist if you'd like</label>
+                        <input type="text" class="form-control" id="artist-input" placeholder="Drake, Justin Bieber, Ed Sheeran...">
+
+                        <!-- Control for valence -->
+                        <label for="valence">How good do you want the vibes to be?</label>
+                        <input type="range" class="custom-range" min="0" max="1" step="0.001" id="valence-control">
+
+                        <!-- Control for danceability -->
+                        <label for="danceability">How much do you want to dance?</label>
+                        <input type="range" class="custom-range" min="0" max="1" step="0.001" id="danceability-control">
+
+                        <!-- Control for energy -->
+                        <label for="energy">How much energy do you want in the music?</label>
+                        <input type="range" class="custom-range" min="0" max="1" step="0.001" id="energy-control">
+
+                        <!-- Control for acousticness -->
+                        <label for="acousticness">How acoustic would you like the music?</label>
+                        <input type="range" class="custom-range" min="0" max="1" step="0.001" id="acousticness-control">
+
+                        <!-- Control for instrumentalness -->
+                        <label for="instrumentalness">Would you like the music more instrumental than vocal?</label>
+                        <input type="range" class="custom-range" min="0" max="1" step="0.001" id="instrumentalness-control">
+
+                        <!-- Number of songs -->
+                        <label for="num-songs">How many songs would you like?</label>
+                        <input type="text" class="form-control" id="num-songs" placeholder="1-100">
+
+
+                        <!-- Name playlist -->
+                        <label for="playlist-name">What would you like to call the playlist?</label>
+                        <input type="text" class="form-control" id="playlist-name" placeholder="Playlist name">
+
+                    </form>
+                    <br>
+                    <div class="wrapper">
+                        <button class="btn btn-success" id="createPlaylist">Create Playlist</button>
+                    </div>
+
+    </script>
+
+    <script id="oauth-template" type="text/x-handlebars-template"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+        (function() {
+
+            /**
+             * Obtains parameters from the hash of the URL
+             * @return Object
+             */
+            function getHashParams() {
+                var hashParams = {};
+                var e, r = /([^&;=]+)=?([^&;]*)/g,
+                    q = window.location.hash.substring(1);
+                while (e = r.exec(q)) {
+                    hashParams[e[1]] = decodeURIComponent(e[2]);
+                }
+                return hashParams;
+            }
+
+            var userProfileSource = document.getElementById('playlist-controls-template').innerHTML,
+                userProfileTemplate = Handlebars.compile(userProfileSource),
+                userProfilePlaceholder = document.getElementById('playlist-controls');
+
+            var oauthSource = document.getElementById('oauth-template').innerHTML,
+                oauthTemplate = Handlebars.compile(oauthSource),
+                oauthPlaceholder = document.getElementById('oauth');
+
+            var params = getHashParams();
+
+            var access_token = params.access_token,
+                refresh_token = params.refresh_token,
+                error = params.error;
+
+            if (error) {
+                alert('There was an error during the authentication');
+            } else {
+                if (access_token) {
+
+                    $.ajax({
+                        url: 'https://api.spotify.com/v1/me',
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token
+                        },
+                        success: function(response) {
+                            userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+                            $('#login').hide();
+                            $('#loggedin').show();
+
+                            // Add event listener for create playlist button
+                            document.getElementById('createPlaylist').addEventListener('click', createPlaylist);
+
+                        }
+                    });
+                } else {
+                    // render initial screen
+                    $('#login').show();
+                    $('#loggedin').hide();
+                }
+            }
+        })();
+
+        // Function for sending data to app
+        var createPlaylist = function() {
+            // Send data to app
+            $.ajax({
+                url: '/create_playlist',
+                data: {
+                    'genre': document.getElementById('genre-select').value,
+                    'artist': document.getElementById('artist-input').value,
+                    'valence': document.getElementById('valence-control').value,
+                    'danceability': document.getElementById('danceability-control').value,
+                    'energy': document.getElementById('energy-control').value,
+                    'acousticness': document.getElementById('acousticness-control').value,
+                    'instrumentalness': document.getElementById('instrumentalness-control').value,
+                    'numSongs': document.getElementById('num-songs').value,
+                    'playlistName': document.getElementById('playlist-name').value
+                },
+                success: function(response) {
+                    console.log(response);
+                    window.location.href = `https://open.spotify.com/playlist/${response.playlist_id}`;
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
