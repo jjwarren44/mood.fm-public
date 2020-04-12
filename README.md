@@ -8,7 +8,7 @@ Spotify playlist generator based on audio features requested by user.
 4. Here you will find your Client ID, Client Secret, and the abiliy to add a redirect URI. Create a redirect URI in 'Edit Settings' and insert all of your information into their respective variables in `app.js`
 5. Install Node.js (either from terminal or from <a href="https://nodejs.org/en/download/">Node.js website</a>)
 6. `cd` to directory where your project is
-7. Type `npm install` into command line to download all dependencies
+7. Type `npm install` into command line to install all dependencies
 8. Type `node app.js` into command line to start running application locally
 9. Go to localhost:5000 in your browser and you should be able to start generating playlists
 
