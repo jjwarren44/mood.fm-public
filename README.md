@@ -3,7 +3,7 @@ Spotify playlist generator based on audio features requested by user.
 
 ## How to Use
 1. Clone this project or download zip
-2. Create a <a href="https://developer.spotify.com/dashboard/login">Spotify Developers account</a><
+2. Create a <a href="https://developer.spotify.com/dashboard/login">Spotify Developers account</a>
 3. Register an application and go into dashboard for the newly created application
 4. Here you will find your Client ID, Client Secret, and the abiliy to add a redirect URI. Create a redirect URI in 'Edit Settings' and insert all of your information into their respective variables in `app.js`
 5. Install Node.js (either from terminal or from <a href="https://nodejs.org/en/download/">Node.js website</a>)
